@@ -4,8 +4,9 @@ package com.byunghwa.demo.viewflipperwithindicator;
  * Created by ByungHwa on 8/19/2014.
  */
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
@@ -13,35 +14,47 @@ import android.view.animation.AnimationUtils;
 import android.widget.ViewFlipper;
 
 
-public class MyActivity extends Activity implements GestureDetector.OnGestureListener {
+public class MyActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
-    ViewFlipper flipper;
+    private ViewFlipper flipper;
+    private Animation lInAnim;
+    private Animation lOutAnim;
+
     private GestureDetector detector = null;
+
+    private Handler myHandler = new Handler();
+
+    private Runnable flipController = new Runnable() {
+        @Override
+        public void run() {
+            flipper.setInAnimation(lInAnim);
+            flipper.setOutAnimation(lOutAnim);
+            flipper.showNext();
+            flipper.startFlipping();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        Animation lInAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
-        Animation lOutAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
+        lInAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
+        lOutAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
 
         flipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         flipper.setInAnimation(lInAnim);
         flipper.setOutAnimation(lOutAnim);
         flipper.setAutoStart(true);
         flipper.setFlipInterval(3000);
-        if(flipper.isAutoStart()&&flipper.isFlipping()){
-            flipper.startFlipping();
-        }
+        flipper.startFlipping();
+
         detector = new GestureDetector(this, this);
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //flipper.stopFlipping();
-        //flipper.setAutoStart(true);
         return detector.onTouchEvent(event);
     }
 
@@ -76,22 +89,26 @@ public class MyActivity extends Activity implements GestureDetector.OnGestureLis
         // you can change this value
         float sensitivity = 50;
 
-        // TODO Auto-generated method stub
-        if((e1.getX() - e2.getX()) > sensitivity){
-            Animation lInAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
-            Animation lOutAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
-            flipper.setInAnimation(lInAnim);
-            flipper.setOutAnimation(lOutAnim);
+        if ((e1.getX() - e2.getX()) > sensitivity) {
+
             flipper.showNext();
-            flipper.setAutoStart(true);
+
+            flipper.stopFlipping();
+
+            myHandler.postDelayed(flipController, 3000);
+
             return true;
-        }else if((e2.getX() - e1.getX()) > sensitivity){
+        } else if ((e2.getX() - e1.getX()) > sensitivity) {
             Animation rInAnim = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
             Animation rOutAnim = AnimationUtils.loadAnimation(this, R.anim.push_right_out);
             flipper.setInAnimation(rInAnim);
             flipper.setOutAnimation(rOutAnim);
             flipper.showPrevious();
-            flipper.setAutoStart(true);
+
+            flipper.stopFlipping();
+
+            myHandler.postDelayed(flipController, 3000);
+
             return true;
         }
 
