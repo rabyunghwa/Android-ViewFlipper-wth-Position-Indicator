@@ -24,6 +24,7 @@ public class MyActivity extends AppCompatActivity implements GestureDetector.OnG
 
     private Handler myHandler = new Handler();
 
+    // flipper restarts flipping
     private Runnable flipController = new Runnable() {
         @Override
         public void run() {
@@ -93,8 +94,10 @@ public class MyActivity extends AppCompatActivity implements GestureDetector.OnG
 
             flipper.showNext();
 
+            // first stops flipping
             flipper.stopFlipping();
 
+            // then flipper restarts flipping in 3 seconds
             myHandler.postDelayed(flipController, 3000);
 
             return true;
@@ -105,8 +108,10 @@ public class MyActivity extends AppCompatActivity implements GestureDetector.OnG
             flipper.setOutAnimation(rOutAnim);
             flipper.showPrevious();
 
+            // first stops flipping
             flipper.stopFlipping();
 
+            // then flipper restarts flipping in 3 seconds
             myHandler.postDelayed(flipController, 3000);
 
             return true;
