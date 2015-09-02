@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ViewFlipperWithIndicator</string>
+    <string name="view_flipper_text1">Good Morning!!!</string>
+    <string name="view_flipper_text2">Good Afternoon!!!</string>
+    <string name="view_flipper_text3">Good Evening!!!</string>
+    <string name="view_flipper_text4">Good Night!!!</string>
+
+
+</resources>
