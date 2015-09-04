@@ -13,12 +13,45 @@ import android.widget.ViewFlipper;
 
 public class ViewFlipperIndicator extends ViewFlipper {
 
-    private Paint paint = new Paint();
-    private Context mContext;
+    private Paint paintCurrent, paintNormal;
+
+    private int radius;
+    private int margin;
 
     public ViewFlipperIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    public int getMargin() {
+        return margin;
+    }
+
+    public void setMargin(int margin) {
+        this.margin = margin;
+    }
+
+    public Paint getPaintCurrent() {
+        return paintCurrent;
+    }
+
+    public void setPaintCurrent(Paint paintCurrent) {
+        this.paintCurrent = paintCurrent;
+    }
+
+    public Paint getPaintNormal() {
+        return paintNormal;
+    }
+
+    public void setPaintNormal(Paint paintNormal) {
+        this.paintNormal = paintNormal;
     }
 
     @Override
@@ -26,8 +59,6 @@ public class ViewFlipperIndicator extends ViewFlipper {
         super.dispatchDraw(canvas);
         int width = getWidth();
 
-        float margin = 2;
-        float radius = 6;
         float cx = width / 2 - ((radius + margin) * 2 * getChildCount() / 2);
         float cy = getHeight() - 15;
 
@@ -35,13 +66,11 @@ public class ViewFlipperIndicator extends ViewFlipper {
 
         for (int i = 0; i < getChildCount(); i++) {
             if (i == getDisplayedChild()) {
-                paint.setColor(mContext.getResources().getColor(android.R.color.white));
-                canvas.drawCircle(cx, cy, radius, paint);
+                canvas.drawCircle(cx, cy, getRadius(), getPaintCurrent());
             } else {
-                paint.setColor(mContext.getResources().getColor(R.color.pink_a200));
-                canvas.drawCircle(cx, cy, radius, paint);
+                canvas.drawCircle(cx, cy, getRadius(), getPaintNormal());
             }
-            cx += 2 * (radius + margin);
+            cx += 2 * (getRadius() + getMargin());
         }
         canvas.restore();
     }

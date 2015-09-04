@@ -4,6 +4,7 @@ package com.byunghwa.demo.viewflipperwithindicator;
  * Created by ByungHwa on 8/19/2014.
  */
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +12,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ViewFlipper;
 
 
 public class MyActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
-    private ViewFlipper flipper;
+    private ViewFlipperIndicator flipper;
     private Animation lInAnim;
     private Animation lOutAnim;
 
@@ -43,7 +43,21 @@ public class MyActivity extends AppCompatActivity implements GestureDetector.OnG
         lInAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
         lOutAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
 
-        flipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+        flipper = (ViewFlipperIndicator) findViewById(R.id.viewFlipper);
+
+        // set values radius and margin for view flipper indicators
+        flipper.setRadius(10);
+        flipper.setMargin(10);
+
+        // set colors for the indicators
+        Paint paint = new Paint();
+        paint.setColor(getResources().getColor(android.R.color.white));
+        flipper.setPaintCurrent(paint);
+
+        paint = new Paint();
+        paint.setColor(getResources().getColor(R.color.pink_a200));
+        flipper.setPaintNormal(paint);
+
         flipper.setInAnimation(lInAnim);
         flipper.setOutAnimation(lOutAnim);
         flipper.setAutoStart(true);
