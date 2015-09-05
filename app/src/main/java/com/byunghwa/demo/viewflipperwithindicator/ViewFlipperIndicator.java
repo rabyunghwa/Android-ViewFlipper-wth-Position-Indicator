@@ -57,6 +57,7 @@ public class ViewFlipperIndicator extends ViewFlipper {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
+
         int width = getWidth();
 
         float cx = width / 2 - ((radius + margin) * 2 * getChildCount() / 2);

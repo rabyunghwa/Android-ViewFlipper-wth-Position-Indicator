@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MyActivity">
 
+    <!-- You can customize the height of the view flipper here -->
     <com.byunghwa.demo.viewflipperwithindicator.ViewFlipperIndicator
         android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
