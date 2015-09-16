@@ -19,6 +19,8 @@ public class MyActivity extends AppCompatActivity implements GestureDetector.OnG
     private ViewFlipperIndicator flipper;
     private Animation lInAnim;
     private Animation lOutAnim;
+    
+    private String KEY_FLIPPER_POSITION = "flipper_position";
 
     private GestureDetector detector = null;
 
@@ -62,10 +64,22 @@ public class MyActivity extends AppCompatActivity implements GestureDetector.OnG
         flipper.setOutAnimation(lOutAnim);
         flipper.setAutoStart(true);
         flipper.setFlipInterval(3000);
+        
+        // flipper has a previous position. we should restore it
+        if (savedInstanceState != null) {
+            flipper.setDisplayedChild(savedInstanceState.getInt(KEY_FLIPPER_POSITION));
+        }
+        
         flipper.startFlipping();
 
         detector = new GestureDetector(this, this);
 
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_FLIPPER_POSITION, flipper.getDisplayedChild());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
